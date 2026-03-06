@@ -8,16 +8,7 @@ A version of this project with the datasets and outputs used when writing our pa
 
 ## Installation
 
-The environment for this project is defined in `environment.yml`.
-Install it using Conda:
-
-```bash
-conda env create --file environment.yml --force
-```
-
-This will produce an environment named `td_dft` you must activate it
-following the instructions given by conda after installation and 
-launch Jupyter from within this environment for the notebooks to function. 
+The environment for this project is defined in `requirements_cpu.txt`, and you can install it through `pip`.
 
 ## Organization
 
