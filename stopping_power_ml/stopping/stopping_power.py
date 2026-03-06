@@ -290,28 +290,6 @@ def compute_stopping_power(cell, model, featurizers, start_pos, vdir, vmag, *, c
     # Perform the integration
     return quad(f, 0, 1, epsabs=abserr, full_output=full_output, points=near_points, limit=max_inter, **kwargs)
 
-def create_force_calculator_given_displacement(cell, start_pos, traj_dir):
-    """Create a function that computes the stopping force given displacement and current velocity
-    
-    :param start_pos: [float], starting point in conventional cell fractional coordinates
-    :param traj_dir: [float], directional of travel in cartesian coordinate
-    :return: (float, float)->float Takes displacement in distance units and velocity magnitude and computes force
-    """
-    
-    # Get the trajectory direction as a unit vector
-    traj_dir = np.divide(traj_dir, np.linalg.norm(traj_dir))
-    
-    # Convert the start point to Cartesian coordinates
-    start_pos = cell.conv_strc.lattice.get_cartesian_coords(start_pos)
-    print("start_pos", start_pos)
-    
-    # Make the function
-    def output(disp, vel_mag, variance = np.array([0, 0, 0])):
-        pos = start_pos + disp * traj_dir
-        x = featurizers.featurize(pos + variance, vel_mag * traj_dir)
-        return model.predict(np.array([x]), verbose = 0)[0].item()
-    return output
-
 if __name__ == '__main__':
     from ase.atoms import Atoms, Atom
     from stopping_power_ml.features import ProjectedAGNIFingerprints
